@@ -80,8 +80,9 @@ export const authOptions: AuthOptions = {
         //MAKE A POST REQUEST TO CREATE NEW USER ACCOUNT IN CASE THIS IS A NEW USER OR GET USER ID IN CASE THIS USER ALREADY EXIST
         const googleId = account.providerAccountId;
         const email = profile?.email;
+        const username = profile?.name;
 
-        if (googleId && email) {
+        if (googleId && email && username) {
           const res = await fetch(`${SERVER_URL}/login`, {
             method: "POST",
             headers: {
@@ -90,11 +91,11 @@ export const authOptions: AuthOptions = {
             body: JSON.stringify({
               googleId,
               email,
+              username,
             }),
           });
 
           const data = await res.json();
-
           return { ...token, ...user, id: data.id };
         }
       }
